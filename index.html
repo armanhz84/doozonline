@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>گوگام آنلاین | شاهین پنج</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Supabase JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+  </script>
+</head>
+<body>
+  <div class="app" id="app">
+
+    <!-- ═══ صفحهٔ ۱: لابی (ورود و انتخاب تالار) ═══ -->
+    <div id="page-lobby" class="page page-lobby">
+      <div class="status-bar">
+        <span class="time">۹:۴۱</span>
+        <span class="icons">📶 🔋</span>
+      </div>
+
+      <div class="header">
+        <div>
+          <h1 class="brand">گوگام <span class="gold">آنلاین</span></h1>
+          <p class="subtitle">اتاق بازی بساز یا به اتاقی بپیوند</p>
+        </div>
+      </div>
+
+      <!-- فرم ورود -->
+      <div class="login-section">
+        <div class="input-group">
+          <label>نام تو</label>
+          <input type="text" id="playerName" placeholder="مثلاً: آرش" maxlength="16" value="آرش">
+        </div>
+        <div class="input-group">
+          <label>کد اتاق (برای پیوستن)</label>
+          <input type="text" id="roomCode" placeholder="خالی بذار برای ساختن اتاق جدید">
+        </div>
+        <div class="lobby-actions">
+          <button class="btn-primary" id="btnCreateGame">🎱 ساختن اتاق جدید</button>
+          <button class="btn-secondary" id="btnJoinGame">🔗 پیوستن به اتاق</button>
+        </div>
+        <div class="or-divider">یا یک تالار انتخاب کن</div>
+      </div>
+
+      <!-- تالارهای سریع -->
+      <div class="quick-tables" id="quickTables"></div>
+
+      <div class="status-msg" id="statusMsg">اتصال به سرور...</div>
+    </div>
+
+    <!-- ═══ صفحهٔ ۲: اتاق انتظار ═══ -->
+    <div id="page-waiting" class="page page-waiting hidden">
+      <div class="waiting-box">
+        <div class="loading-spinner"></div>
+        <h2>⏳ منتظر حریف...</h2>
+        <p id="roomDisplay">کد اتاق: <strong id="roomCodeDisplay">---</strong></p>
+        <p class="share-hint">این کد را به دوستت بده تا وارد بازی شود</p>
+        <button class="btn-secondary" id="btnCancelGame">❌ لغو و برگشت</button>
+      </div>
+    </div>
+
+    <!-- ═══ صفحهٔ ۳: بازی ═══ -->
+    <div id="page-game" class="page page-game hidden">
+      <div class="game-header">
+        <button class="back-btn" id="btnBackLobby">✕</button>
+        <div class="game-city" id="gameCity">🏛 اصفهان</div>
+        <div class="game-pot">💠 <span id="gamePrize">۹۵۰</span></div>
+      </div>
+
+      <!-- دو بازیکن -->
+      <div class="game-players">
+        <div class="gplayer me" id="gPlayer1">
+          <div class="gp-avatar" style="background:linear-gradient(135deg,#57d9a3,#0f7a5c)">آ</div>
+          <div class="gp-name" id="gp1Name">آرش</div>
+          <div class="gp-status" id="gp1Status">⚡ نوبت تو</div>
+        </div>
+        <div class="gp-vs">VS</div>
+        <div class="gplayer opp" id="gPlayer2">
+          <div class="gp-avatar" style="background:linear-gradient(135deg,#ffd782,#b45309)">؟</div>
+          <div class="gp-name" id="gp2Name">منتظر...</div>
+          <div class="gp-status" id="gp2Status">⏳</div>
+        </div>
+      </div>
+
+      <!-- تایمر -->
+      <div class="game-timer" id="gameTimer">
+        <span class="timer-num" id="timerNum">۱۵</span>
+        <span class="timer-label">ثانیه</span>
+      </div>
+
+      <!-- تخته -->
+      <div class="board-frame">
+        <div class="wood-grain"></div>
+        <canvas id="board" width="600" height="600"></canvas>
+      </div>
+
+      <!-- دکمه‌ها -->
+      <div class="game-actions">
+        <button class="game-btn" id="btnResign">🏳️ تسلیم</button>
+        <button class="game-btn primary" id="btnLeave">🚪 خروج از بازی</button>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
