@@ -12,8 +12,8 @@ let state = STATE.LOBBY;
 const $ = (id) => document.getElementById(id);
 
 // ═══ تنظیمات Supabase —  اینا رو عوض کن ═══
-const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR-ANON-KEY";
+const SUPABASE_URL = "https://ufcakzxrtfdjvfzozbnr.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmY2FrenhydGZkanZmem96Ym5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3NDg5OTgsImV4cCI6MjEwMjMyNDk5OH0.GqstWEdsSnEByPT6jfIi2KoqaBKgDaByqIwMeqKoJg";
 
 let supabase = null;
 let isOnline = false;
