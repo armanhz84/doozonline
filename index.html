@@ -6,7 +6,7 @@
   <title>گوگام آنلاین | شاهین پنج</title>
   <link rel="stylesheet" href="style.css">
   <!-- Supabase JS Client (CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js">
   </script>
 </head>
 <body>
@@ -55,7 +55,7 @@
         <div class="loading-spinner"></div>
         <h2>⏳ منتظر حریف...</h2>
         <p id="roomDisplay">کد اتاق: <strong id="roomCodeDisplay">---</strong></p>
-        <p class="share-hint">این کد را به دوستت بده تا وارد بازی شود</p>
+        <p class="share-hint" id="share-hint">این کد را به دوستت بده تا وارد بازی شود</p>
         <button class="btn-secondary" id="btnCancelGame">❌ لغو و برگشت</button>
       </div>
     </div>

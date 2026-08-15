@@ -15,11 +15,13 @@ const $ = (id) => document.getElementById(id);
 const SUPABASE_URL = "https://ufcakzxrtfdjvfzozbnr.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmY2FrenhydGZkanZmem96Ym5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3NDg5OTgsImV4cCI6MjEwMjMyNDk5OH0.GqstWEdsSnEByPT6jfIi2KoqaBKgDaByqIwMeqKoJbQ";
 
-let supabase = null;
+let supabaseClient = null;
 let isOnline = false;
 try {
   if (SUPABASE_URL.includes("YOUR-PROJECT")) throw new Error("Not configured");
-  supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabaseModule = window.supabase;
+  if (!supabaseModule) throw new Error("Supabase library not loaded");
+  supabaseClient = supabaseModule.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   isOnline = true;
 } catch (e) {
   console.warn("Supabase not configured. Using OFFLINE mode (2-player hot-seat).");
@@ -198,7 +200,7 @@ async function joinGame(code) {
 }
 async function cancelGame() {
   if (gameId && supabase && isOnline) {
-    await supabase.from("games").delete().eq("id", gameId);
+    await supabaseClient.from("games").delete().eq("id", gameId);
   }
   cleanup(); showPage(STATE.LOBBY);
 }
@@ -206,7 +208,7 @@ async function cancelGame() {
 async function leaveGame() {
   if (gameId && supabase && isOnline && !gameOver) {
     const winner = myColor === "black" ? "white" : "black";
-    await supabase.from("games").update({ status: "finished", winner }).eq("id", gameId);
+    await supabaseClient.from("games").update({ status: "finished", winner }).eq("id", gameId);
   }
   cleanup(); showPage(STATE.LOBBY); showToast("🚪 خارج شدی");
 }
@@ -216,7 +218,7 @@ async function resignGame() {
   const winner = myColor === "black" ? "white" : "black";
   gameOver = true; stopTimer();
   if (isOnline && supabase) {
-    await supabase.from("games").update({ status: "finished", winner }).eq("id", gameId);
+    await supabaseClient.from("games").update({ status: "finished", winner }).eq("id", gameId);
   }
   showToast("🏳️ تسلیم شدی! " + opponentName + " برنده شد");
   renderBoard();
@@ -366,8 +368,8 @@ async function makeMove(row,col){
     if(!gameOver)startTimer(); return;
   }
   if(supabase&&gameId&&isOnline){
-    const{error}=await supabase.from("games").update({board,current_turn:newStatus==="finished"?currentTurn:nextTurn,status:newStatus,winner,last_move:{row,col,color:myColor}}).eq("id",gameId);
-    if(!error) await supabase.from("moves").insert({game_id:gameId,player_name:myName,stone:myColor,row_pos:row,col_pos:col});
+    const{error}=await supabaseClient.from("games").update({board,current_turn:newStatus==="finished"?currentTurn:nextTurn,status:newStatus,winner,last_move:{row,col,color:myColor}}).eq("id",gameId);
+    if(!error) await supabaseClient.from("moves").insert({game_id:gameId,player_name:myName,stone:myColor,row_pos:row,col_pos:col});
   }
   renderBoard();updateGameUI();
   if(gameOver){const msg=winner===myColor?"🎉 برنده شدی!":winner==="draw"?"🤝 مساوی!":"";if(msg)showToast(msg);}
