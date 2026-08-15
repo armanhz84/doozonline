@@ -15,13 +15,11 @@ const $ = (id) => document.getElementById(id);
 const SUPABASE_URL = "https://ufcakzxrtfdjvfzozbnr.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmY2FrenhydGZkanZmem96Ym5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3NDg5OTgsImV4cCI6MjEwMjMyNDk5OH0.GqstWEdsSnEByPT6jfIi2KoqaBKgDaByqIwMeqKoJbQ";
 
-let supabaseClient = null;
+let supabase = null;
 let isOnline = false;
 try {
   if (SUPABASE_URL.includes("YOUR-PROJECT")) throw new Error("Not configured");
-  const supabaseModule = window.supabase;
-  if (!supabaseModule) throw new Error("Supabase library not loaded");
-  supabaseClient = supabaseModule.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   isOnline = true;
 } catch (e) {
   console.warn("Supabase not configured. Using OFFLINE mode (2-player hot-seat).");
